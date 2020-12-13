@@ -1,5 +1,5 @@
 #template_list: B1F 1F 2F 3F 4F 5F 6F 7F 8F 9F 10F 11F 12F
-template_list: 2F 7F 8F
+template_list: 2F 3F 7F 8F
 template:
     1F:
         name: /1f
@@ -8,6 +8,10 @@ template:
     2F:
         name: /2f
         path: "package://elevator_move_base_pr2/elevator_numbers/eng2/2f.png"
+        thre: 0.11
+    3F:
+        name: /3f
+        path: "package://elevator_move_base_pr2/elevator_numbers/eng2/3f.png"
         thre: 0.11
     7F:
         name: /7f
