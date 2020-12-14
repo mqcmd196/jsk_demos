@@ -1,9 +1,10 @@
 <launch>
   <arg name="ROBOT" default="$(optenv ROBOT fetch)" />
   <arg name="scene" default="eng2"/>
+  <arg name="camera_ns" default="/head_camera" />
 
   <!-- start objectdetection/tf -->
-  <group ns="/narrow_stereo/left">
+  <group ns="$(arg camera_ns)">
     <include file="$(find jsk_perception)/launch/eusmodel_detection_elevator-panels-$(arg scene).launch"/>
     <!-- <node name="find_elevator_button" pkg="roseus" type="roseus" -->
 	  <!-- respawn="true" machine="c2" -->
@@ -17,7 +18,7 @@
 	<!--       type="color_point_detector" machine="c2"> -->
   <node name="light_detector" pkg="elevator_move_base_pr2"
 	      type="color_point_detector">
-    <remap from="image" to="/wide_stereo/left/image_rect_color"/>
+    <remap from="image" to="/head_camera/rgb/image_rect_color"/>
     <param name="red" value="253"/>
     <param name="green" value="251"/>
     <param name="blue" value="183"/>
@@ -27,14 +28,14 @@
   <!-- <node name="panel_camera"  machine="c2" -->
   <!--       pkg="jsk_perception" type="virtual_camera_mono"> -->
   <node name="panel_camera" pkg="jsk_perception" type="virtual_camera_mono">
-    <remap from="image" to="/narrow_stereo/left/image_raw"/>
+    <remap from="image" to="/head_camera/rgb/image_raw"/>
   </node>
   <node name="elevator_number" pkg="elevator_move_base_pr2" type="matchtemplate.py" output="screen">
     <rosparam file="$(find elevator_move_base_pr2)/launch/template-$(arg scene).yaml" command="load"/>
     <remap from="~image" to="/panel_camera/image"/>
   </node>
 
-  <group ns="/narrow_stereo/left" >
+  <group ns="$(arg camera_ns)" >
     <!-- <node machine="c1" name="throttle" pkg="topic_tools" -->
     <!--       type="throttle" args="messages image_rect 2.0"/> -->
     <node name="throttle" pkg="topic_tools"
