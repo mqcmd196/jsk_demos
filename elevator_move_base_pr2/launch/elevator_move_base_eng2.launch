@@ -1,6 +1,6 @@
 <launch>
-  <arg name="ROBOT" default="$(optenv ROBOT pr2)" />
-  <include file="$(find pr2_machine)/$(arg ROBOT).machine"/>
+  <arg name="ROBOT" default="$(optenv ROBOT fetch)" />
+  <!-- <include file="$(find pr2_machine)/$(arg ROBOT).machine"/> -->
 
   <node name="elevator_move_base" pkg="roseus" type="roseus"
         output="screen" respawn="true"
