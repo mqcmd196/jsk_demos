@@ -1,3 +1,0 @@
-apps:
-  - app: elevator_move_base_pr2/pr2_subway_demo
-    display: PR2 fetches sandwich from SUBWAY
