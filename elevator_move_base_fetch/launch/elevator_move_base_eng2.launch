@@ -3,10 +3,6 @@
 
   <node name="publish_gray_img" pkg="elevator_move_base_fetch" type="publish_gray_img.py"
         respawn="true"/>
-    
-  <node name="elevator_move_base" pkg="roseus" type="roseus"
-        output="screen" respawn="true"
-        args="$(find elevator_move_base_fetch)/src/elevator-move-base.l"/>
 
   <include file="$(find elevator_move_base_fetch)/launch/elevator_move_base_modules.xml">
     <arg name="scene" value="eng2" />
