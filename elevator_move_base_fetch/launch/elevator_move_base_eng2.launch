@@ -12,10 +12,4 @@
     <arg name="scene" value="eng2" />
   </include>
 
-  <include file="$(find elevator_move_base_fetch)/launch/extract_eng2_forum_door_point_cloud.launch">
-  </include>
-
-  <include file="$(find elevator_move_base_fetch)/launch/door_button_segmentation_3d.launch">
-  </include>
-
 </launch>
