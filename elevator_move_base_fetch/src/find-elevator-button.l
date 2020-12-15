@@ -1,7 +1,7 @@
 #!/usr/bin/env roseus
 
-(load "package://elevator_move_base_pr2/src/posedetectiondb-client.l")
-(load "package://elevator_move_base_pr2/src/utils.l")
+(load "package://elevator_move_base_fetch/src/posedetectiondb-client.l")
+(load "package://elevator_move_base_fetch/src/utils.l")
 
 
 (defvar *clients*)

@@ -14,35 +14,36 @@
 
   <!-- ===================================================================== -->
 
+  <!-- THIS GROUP IS NOT NEEDED ON FETCH_OFFICE_DEMO -->
   <!-- TODO(Unknown): Please implement GPU machine c3 -->
   <!-- and move these 2 nodes to fcn_door_button_segmentation.launch -->
-  <group ns="door_button">
-    <!-- Subscribe only when it gets service request -->
-    <node name="pass_through_image"
-          pkg="nodelet" type="nodelet"
-          args="standalone jsk_topic_tools/Passthrough"
-          output="screen" respawn="true">
-      <remap from="~input" to="/head_camera/rgb/half/image_rect_color"/>
-      <rosparam>
-        default_duration: 0.0  # infinite
-      </rosparam>
-    </node>
-    <!-- Visualization -->
-    <node name="label_image_decomposer"
-          pkg="jsk_perception" type="label_image_decomposer.py"
-          output="screen" respawn="true">
-      <remap from="~input" to="/head_camera/rgb/half/image_rect_color"/>
-      <remap from="~input/label" to="fcn_object_segmentation/output"/>
-      <rosparam>
-        label_names:
-          - _background_
-          - button
-        bg_label: 0
-        approximate_sync: false
-        queue_size: 100
-      </rosparam>
-    </node>
-  </group>  <!-- ns: door_button -->
+  <!-- <group ns="door_button"> -->
+  <!--   <!-\- Subscribe only when it gets service request -\-> -->
+  <!--   <node name="pass_through_image" -->
+  <!--         pkg="nodelet" type="nodelet" -->
+  <!--         args="standalone jsk_topic_tools/Passthrough" -->
+  <!--         output="screen" respawn="true"> -->
+  <!--     <remap from="~input" to="/head_camera/rgb/half/image_rect_color"/> -->
+  <!--     <rosparam> -->
+  <!--       default_duration: 0.0  # infinite -->
+  <!--     </rosparam> -->
+  <!--   </node> -->
+  <!--   <!-\- Visualization -\-> -->
+  <!--   <node name="label_image_decomposer" -->
+  <!--         pkg="jsk_perception" type="label_image_decomposer.py" -->
+  <!--         output="screen" respawn="true"> -->
+  <!--     <remap from="~input" to="/head_camera/rgb/half/image_rect_color"/> -->
+  <!--     <remap from="~input/label" to="fcn_object_segmentation/output"/> -->
+  <!--     <rosparam> -->
+  <!--       label_names: -->
+  <!--         - _background_ -->
+  <!--         - button -->
+  <!--       bg_label: 0 -->
+  <!--       approximate_sync: false -->
+  <!--       queue_size: 100 -->
+  <!--     </rosparam> -->
+  <!--   </node> -->
+  <!-- </group>  <!-\- ns: door_button -\-> -->
 
   <!-- <include file="$(find elevator_move_base_fetch)/launch/fcn_door_button_segmentation.launch"> -->
   <!--   <arg name="GPU_MACHINE" value="c3"/> -->

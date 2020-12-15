@@ -1,7 +1,7 @@
 (ros::roseus-add-msgs "geometry_msgs")
 (ros::roseus-add-msgs "posedetection_msgs")
 
-(load "package://elevator_move_base_pr2/src/ros-callback-manager.l")
+(load "package://elevator_move_base_fetch/src/ros-callback-manager.l")
 
 
 ;; get vector in vlist , that is least median distance
@@ -27,7 +27,7 @@
 (defmethod posedetectiondb-client
   (:init (objs
           &key (topic "ObjectDetection")
-               ((:fixed-frame _fixed) "/base_footprint")
+               ((:fixed-frame _fixed) "/base_link")
                ((:filter-type ft) :lmeds))
    (setq objects objs)
    (setq fixed-frame _fixed)
