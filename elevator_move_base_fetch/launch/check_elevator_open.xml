@@ -1,6 +1,5 @@
 <launch>
-  <arg name="INPUT_CLOUD" default="/kinect_head/depth_registered/half/throttled/points"/>
-  <arg name="MACHINE" default="c2"/>
+  <arg name="INPUT_CLOUD" default="/head_camera/depth_registered/quater/throttled/points"/>
   <arg name="MANAGER" default="check_elevator_open_manager"/>
   <arg name="NS" default="check_elevator_open"/>
 
@@ -8,13 +7,11 @@
     <node name="$(arg MANAGER)"
           pkg="nodelet" type="nodelet"
           args="manager"
-          machine="$(arg MACHINE)"
           output="screen" respawn="true"/>
 
     <node name="voxel_grid"
           pkg="nodelet" type="nodelet"
-          args="load pcl/VoxelGrid $(arg MANAGER)"
-          machine="$(arg MACHINE)">
+          args="load pcl/VoxelGrid $(arg MANAGER)">
       <remap from="~input" to="$(arg INPUT_CLOUD)"/>
       <rosparam>
         filter_limit_min: 1.0
@@ -25,8 +22,7 @@
 
     <node name="octree_change_publisher"
           pkg="nodelet" type="nodelet"
-          args="load jsk_pcl/OctreeChangePublisher $(arg MANAGER)"
-          machine="$(arg MACHINE)">
+          args="load jsk_pcl/OctreeChangePublisher $(arg MANAGER)">
       <remap from="~input" to="voxel_grid/output"/>
       <rosparam>
         resolution: 0.3
