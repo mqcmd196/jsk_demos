@@ -11,12 +11,6 @@ find_package(catkin REQUIRED
   tf
 )
 
-add_custom_target(
-  ${PROJECT_NAME}_install_trained_model
-  ALL
-  COMMAND ${PROJECT_SOURCE_DIR}/scripts/install_trained_model.py
-)
-
 include_directories(${catkin_INCLUDE_DIRS})
 
 catkin_package(
