@@ -1,5 +1,5 @@
 <launch>
-  <arg name="ROBOT" default="$(optenv ROBOT pr2)" />
+  <arg name="ROBOT" default="$(optenv ROBOT fetch)" />
   <arg name="input" default="/head_camera/depth_registered/quater/throttled/points" />
   <arg name="output" default="/elevator_inside_change_cloud" />
 
