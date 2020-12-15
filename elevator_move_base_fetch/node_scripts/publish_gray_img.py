@@ -14,13 +14,15 @@ class RGB2Gray:
         self.bridge = CvBridge()
 
     def callback(self, data):
-        cv2_img = self.bridge.imgmsg_to_cv2(msg, "bgr8")
-        gray_img = self.cv2.cvtColor(cv2_img, cv2.COLOR_BGR2GRAY)
-        gray_msg = self.bridge.cv2_to_imgmsg(gray_img, "mono16")
+        cv2_img = self.bridge.imgmsg_to_cv2(data, "bgr8")
+        gray_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2GRAY)
+        gray_msg = self.bridge.cv2_to_imgmsg(gray_img, "mono8")
         self.pub.publish(gray_msg)
 
 if __name__ == '__main__':
     try:
         node = RGB2Gray()
+        while not rospy.is_shutdown():
+            rospy.sleep(0.1)
     except rospy.ROSInterruptException:
         pass
