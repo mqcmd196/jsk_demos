@@ -47,7 +47,7 @@
   </group>
   <node name="panel_camera"
         pkg="jsk_perception" type="virtual_camera_mono">
-    <remap from="image" to="/head_camera/pass_through_image_rect_output"/>
+    <remap from="image" to="/head_camera/mono/pass_through_image_rect_output"/>
   </node>
   <node name="elevator_number"
         pkg="elevator_move_base_fetch" type="match_template.py"
@@ -62,7 +62,7 @@
 
   <!-- Check if elevator door is open. -->
   <include file="$(find elevator_move_base_fetch)/launch/check_elevator_open.xml">
-    <arg name="INPUT_CLOUD" value="/head_camera/depth_registered/quater/throttled/points"/>
+    <arg name="INPUT_CLOUD" value="/head_camera/mono/depth_registered/quater/throttled/points"/>
   </include>
 
 </launch>

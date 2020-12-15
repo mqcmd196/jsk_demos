@@ -13,17 +13,17 @@ class RGB2Gray:
         self.img_sub = rospy.Subscriber('/head_camera/rgb/image_rect_color', Image, self.img_callback)
         self.info_sub = rospy.Subscriber('/head_camera/rgb/camera_info', CameraInfo, self.info_callback)
         self.img_pub = rospy.Publisher('/head_camera/mono/image_rect', Image, queue_size=1)
-        self.info_pub = rospy.Publisher('/head_camera/mono/image_rect', CameraInfo, queue_size=1)
+        self.info_pub = rospy.Publisher('/head_camera/mono/camera_info', CameraInfo, queue_size=1)
         self.bridge = CvBridge()
 
     def img_callback(self, data):
         cv2_img = self.bridge.imgmsg_to_cv2(data, "bgr8")
         gray_img = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2GRAY)
         gray_msg = self.bridge.cv2_to_imgmsg(gray_img, "mono8")
-        self.pub.publish(gray_msg)
+        self.img_pub.publish(gray_msg)
 
     def info_callback(self, data):
-        self.pub.publish(data)
+        self.info_pub.publish(data)
 
 if __name__ == '__main__':
     try:
