@@ -33,32 +33,6 @@
           respawn="true" output="screen"/>
   </group>
 
-  <!-- THIS GROUP IS NOT NEEDED ON FETCH_OFFICE_DEMO -->
-  <!-- Check if button is lit or not. -->
-  <!-- <group ns="/wide_stereo/left"> -->
-  <!--   <node name="pass_through_image_rect_color" -->
-  <!--         pkg="nodelet" type="nodelet" -->
-  <!--         args="load jsk_topic_tools/Passthrough /$(arg MANAGER)"> -->
-  <!--     <remap from="~input" to="image_rect_color"/> -->
-  <!--     <remap from="~output" to="pass_through_image_rect_color_output"/> -->
-  <!--     <rosparam> -->
-  <!--       default_duration: 0.0  # infinite -->
-  <!--     </rosparam> -->
-  <!--   </node> -->
-  <!-- </group> -->
-  <!-- <node name="light_detector" -->
-  <!--       pkg="elevator_move_base_fetch" type="color_point_detector"> -->
-  <!--   <remap from="image" to="/wide_stereo/left/pass_through_image_rect_color_output"/> -->
-  <!--   <rosparam> -->
-  <!--     red: 253 -->
-  <!--     green: 251 -->
-  <!--     blue: 240 -->
-  <!--     decay_r: 0.1 -->
-  <!--     decay_g: 0.1 -->
-  <!--     decay_b: 0.05 -->
-  <!--   </rosparam> -->
-  <!-- </node> -->
-
   <!-- Read current elevator floor. -->
   <group ns="/head_camera">
     <node name="pass_through_image_rect"

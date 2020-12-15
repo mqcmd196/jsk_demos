@@ -9,7 +9,6 @@
 (require :state-machine-actionlib
          "package://roseus_smach/src/state-machine-actionlib.l")
 
-;; (load "package://elevator_move_base_pr2/src/database-interface.l")
 (load "package://elevator_move_base_pr2/src/state/check-elevator-needed.l")
 (load "package://elevator_move_base_pr2/src/state/check-elevator-open.l")
 (load "package://elevator_move_base_pr2/src/state/move-outside.l")
