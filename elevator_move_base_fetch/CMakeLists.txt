@@ -23,15 +23,8 @@ catkin_package(
 add_executable(color_point_detector src/color_point_detector.cpp)
 target_link_libraries(color_point_detector ${catkin_LIBRARIES})
 
-if (CATKIN_ENABLE_TESTING)
-  find_package(rostest REQUIRED)
-  add_rostest(test/test-color-point-detector.launch)
-  add_rostest(test/test-modules-insidepanel.launch)
-  add_rostest(test/test-panel-pose-detection.launch)
-endif()
-
 install(
-  DIRECTORY config elevator_numbers launch node_scripts sample scripts test
+  DIRECTORY config elevator_numbers launch node_scripts sample scripts
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   USE_SOURCE_PERMISSIONS
 )
