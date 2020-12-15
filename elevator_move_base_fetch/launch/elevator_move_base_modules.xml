@@ -8,7 +8,7 @@
         respawn="true" output="screen"/>
 
   <!-- Detect elevator_call_panel / elevator_inside_panel and broadcast TF. -->
-  <group ns="/head_camera">
+  <group ns="/head_camera/mono">
     <node name="lightweight_throttle"
           pkg="nodelet" type="nodelet"
           args="load jsk_topic_tools/LightweightThrottle /$(arg MANAGER)">
@@ -34,7 +34,7 @@
   </group>
 
   <!-- Read current elevator floor. -->
-  <group ns="/head_camera">
+  <group ns="/head_camera/mono">
     <node name="pass_through_image_rect"
           pkg="nodelet" type="nodelet"
           args="load jsk_topic_tools/Passthrough /$(arg MANAGER)">

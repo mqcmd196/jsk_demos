@@ -7,7 +7,7 @@
 ;; get vector in vlist , that is least median distance
 (defun lmeds-vector (vlist)
   (find-extream
-   vlist
+  vlist
    #'(lambda (p) (let ((diffs (mapcar #'(lambda (p1) (distance p p1)) vlist)))
                    (elt (sort diffs #'<) (/ (length diffs) 2))))
    #'<=))

@@ -4,10 +4,10 @@
 
 (require :eng2-scene "package://jsk_maps/src/eng2-scene.l")
 (require :eng8-scene "package://jsk_maps/src/eng8-scene.l")
-(require :pr2-interface "package://pr2eus/pr2-interface.l")
+(require :fetch-interface "package://fetcheus/fetch-interface.l")
 
 
-;; (defvar *pr2*)
+;; (defvar *fetch*)
 ;; (defvar *ri*)
 
 
@@ -51,8 +51,8 @@
 
 (defun update-robot-position ()
   (ros::spin-once)
-  (send *pr2* :move-to (send *ri* :state :worldcoords) :world)
-  (send *pr2* :angle-vector (send *ri* :state :potentio-vector)))
+  (send *fetch* :move-to (send *ri* :state :worldcoords) :world)
+  (send *fetch* :angle-vector (send *ri* :state :potentio-vector)))
 
 (defun coords->movebaseactiongoal (coords)
   (let ((goal (instance move_base_msgs::movebaseactiongoal :init)))
