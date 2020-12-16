@@ -3,6 +3,7 @@
 
   <node name="publish_gray_img" pkg="elevator_move_base_fetch" type="publish_gray_img.py"
         respawn="true"/>
+  <node name="relay_camera_info" pkg="topic_tools" type="relay" args="/head_camera/rgb/camera_info /head_camera/mono/camera_info"/>
 
   <include file="$(find elevator_move_base_fetch)/launch/elevator_move_base_modules.xml">
     <arg name="scene" value="eng2" />
