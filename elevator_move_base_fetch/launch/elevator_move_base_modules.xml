@@ -57,6 +57,7 @@
               file="$(find elevator_move_base_fetch)/launch/template-$(arg scene).yaml"/>
     <rosparam>
       show_probability: false
+      show_image: false
     </rosparam>
   </node>
 

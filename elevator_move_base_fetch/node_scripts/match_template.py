@@ -32,6 +32,7 @@ class MatchTemplate(ConnectionBasedTransport):
         self.pub_debug = self.advertise(
             '~debug_image', Image, queue_size=1)
         self.show_proba = rospy.get_param('~show_probability', True)
+        self.show_image = rospy.get_param('~show_image', False)
         self.templates = self.load_templates()
         rospy.loginfo('Initialized with %d templates' % len(self.templates))
 
@@ -86,15 +87,21 @@ class MatchTemplate(ConnectionBasedTransport):
         results = dict()
         for typename, template in sorted(self.templates.items()):
             res = cv2.matchTemplate(img, template.image, template.method)
+            if self.show_image:
+                cv2.imshow('img', img)
+                cv2.imshow('template'+typename, template.image)
+                cv2.waitKey(1)
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
             if template.method == cv2.TM_SQDIFF_NORMED:
+                rospy.loginfo("check {:2s} score={:.4f}, thre={:.4f} > max_val={:.4f}".format(typename, min_val, template.thre, max_val))
                 score = min_val
                 result = Result(
                     score=score,
                     found=min_val < template.thre,
                     top_left=min_loc)
             else:
+                rospy.loginfo("check {:2s} score={:.4f}, thre={:.4f} < max_val={:.4f}".format(typename, min_val, template.thre, max_val))
                 score = max_val
                 result = Result(
                     score=score,
