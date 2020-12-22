@@ -34,6 +34,8 @@ class MatchTemplate(ConnectionBasedTransport):
         self.show_proba = rospy.get_param('~show_probability', True)
         self.show_image = rospy.get_param('~show_image', False)
         self.templates = self.load_templates()
+        self.last_msg = self.msg = None
+        self.timer = rospy.Timer(rospy.Duration(1.0/30), self.process_cb)
         rospy.loginfo('Initialized with %d templates' % len(self.templates))
 
     def subscribe(self):
@@ -78,8 +80,18 @@ class MatchTemplate(ConnectionBasedTransport):
             return path
 
     def image_cb(self, msg):
+        self.msg = msg
+
+    def process_cb(self, timer):
+        if self.msg is None:
+            rospy.logwarn_throttle(15, "no message has been received")
+            return False
+        if self.last_msg is not None and self.last_msg.header.stamp == self.msg.header.stamp:
+            rospy.logwarn_throttle(15, "no new message has been received, last message was received at {}".format(self.last_msg.header.stamp.to_sec()))
+            return False
+
         try:
-            img = self.cv_bridge.imgmsg_to_cv2(msg, 'mono8')
+            img = self.cv_bridge.imgmsg_to_cv2(self.msg, 'mono8').copy()
         except cv_bridge.CvBridgeError as e:
             rospy.logerr(e)
             return
@@ -87,6 +99,7 @@ class MatchTemplate(ConnectionBasedTransport):
         results = dict()
         for typename, template in sorted(self.templates.items()):
             res = cv2.matchTemplate(img, template.image, template.method)
+
             if self.show_image:
                 cv2.imshow('img', img)
                 cv2.imshow('template'+typename, template.image)
@@ -110,13 +123,16 @@ class MatchTemplate(ConnectionBasedTransport):
             results[template.name] = result
 
         # publish result
-        msg = StringStamped(header=msg.header)
+        msg = StringStamped(header=self.msg.header)
         msg.data = ' '.join([n for n, r in results.items() if r.found])
         rospy.loginfo('Matched template: {}'.format(msg.data))
         self.pub_result.publish(msg)
 
         # publish debug image
         self.publish_debug(img, results)
+
+        # keep last image
+        self.last_msg = self.msg
 
     def publish_debug(self, img, results):
         templates = self.templates.values()
