@@ -1,17 +1,17 @@
 (ros::roseus-add-msgs "geometry_msgs")
 (ros::roseus-add-msgs "roseus")
 
-(require :pr2-interface "package://pr2eus/pr2-interface.l")
+(require :fetch-interface "package://fetcheus/fetch-interface.l")
 
-(load "package://elevator_move_base_pr2/src/ros-callback-manager.l")
-(load "package://elevator_move_base_pr2/src/state/check-elevator-open.l")
-(load "package://elevator_move_base_pr2/src/state/push-elevator-button.l")
-(load "package://elevator_move_base_pr2/src/utils.l")
+(load "package://elevator_move_base_fetch/src/ros-callback-manager.l")
+(load "package://elevator_move_base_fetch/src/state/check-elevator-open.l")
+(load "package://elevator_move_base_fetch/src/state/push-elevator-button.l")
+(load "package://elevator_move_base_fetch/src/utils.l")
 
 
 (defvar *floors*)
 (defvar *panel*)
-;; (defvar *pr2*)
+;; (defvar *fetch*)
 ;; (defvar *ri*)
 (defvar *scene*)
 (defvar *tfl*)
@@ -27,9 +27,9 @@
         button-coords
         (button-state (instance light-button-cb-class :init)))
     (call-service
-     "/narrow_stereo/left/pass_through_feature_to_inside_panel/request"
+     "/head_camera/mono/pass_through_feature_to_inside_panel/request"
      (instance std_srvs::EmptyRequest :init))
-    (call-service "/wide_stereo/left/pass_through_image_rect_color/request"
+    (call-service "/head_camera/mono/pass_through_image_rect_color/request"
                   (instance std_srvs::EmptyRequest :init))
     (ros::rate 10)
     (while (ros::ok)
@@ -37,7 +37,7 @@
       (setq button-coords
             (find-if #'(lambda (o) (string= target-floor (send o :name)))
                      (flatten (send *panel* :inheritance))))
-      (set-view-target button-coords (send *pr2* :wide_stereo-left)
+      (set-view-target button-coords (send *fetch* :wide_stereo-left)
                        "wide_stereo_optical_frame")
       (ros::spin-once)
       (when (send topic :msg)
@@ -53,21 +53,21 @@
          (format nil "Elevator has not moved in recent ~A [sec]." timeout))
         (speak-jp "エレベータが動いていません。")
         (call-service
-         "/narrow_stereo/left/pass_through_feature_to_inside_panel/stop"
+         "/head_camera/mono/pass_through_feature_to_inside_panel/stop"
          (instance std_srvs::EmptyRequest :init))
-        (call-service "/narrow_stereo/left/pass_through_image_rect/stop"
+        (call-service "/head_camera/mono/pass_through_image_rect/stop"
                       (instance std_srvs::EmptyRequest :init))
-        (call-service "/wide_stereo/left/pass_through_image_rect_color/stop"
+        (call-service "/head_camera/mono/pass_through_image_rect_color/stop"
                       (instance std_srvs::EmptyRequest :init))
         (return-from check-target-floor-arrived nil))
       (when (and cur-floor
                  (substringp (concatenate string "/" target-floor) cur-floor))
         (call-service
-         "/narrow_stereo/left/pass_through_feature_to_inside_panel/stop"
+         "/head_camera/mono/pass_through_feature_to_inside_panel/stop"
          (instance std_srvs::EmptyRequest :init))
-        (call-service "/narrow_stereo/left/pass_through_image_rect/stop"
+        (call-service "/head_camera/mono/pass_through_image_rect/stop"
                       (instance std_srvs::EmptyRequest :init))
-        (call-service "/wide_stereo/left/pass_through_image_rect_color/stop"
+        (call-service "/head_camera/mono/pass_through_image_rect_color/stop"
                       (instance std_srvs::EmptyRequest :init))
         (return-from check-target-floor-arrived t))
       (ros::sleep)
@@ -94,9 +94,9 @@
 
 (defun ready-to-outside (userdata)
   (call-service
-   "/narrow_stereo/left/pass_through_feature_to_inside_panel/request"
+   "/head_camera/mono/pass_through_feature_to_inside_panel/request"
    (instance std_srvs::EmptyRequest :init))
-  (call-service "/narrow_stereo/left/pass_through_image_rect/request"
+  (call-service "/head_camera/mono/pass_through_image_rect/request"
                 (instance std_srvs::EmptyRequest :init))
   (clear-costmap)
   (tolerance-loose)
@@ -108,12 +108,12 @@
          (or (find-if #'(lambda (x) (string= (send x :name) "/elevator_number"))
                       (send *panel* :descendants))
              *panel*)))
-    (send *pr2* :head :look-at (send look-target :worldpos))
+    (send *fetch* :head :look-at (send look-target :worldpos))
     ;; Move fast but converge to the target angle vector
-    (until (eps-v= (send *pr2* :angle-vector)
+    (until (eps-v= (send *fetch* :angle-vector)
                    (send *ri* :state :potentio-vector)
                    1.0)
-           (send *ri* :angle-vector (send *pr2* :angle-vector) 500)
+           (send *ri* :angle-vector (send *fetch* :angle-vector) 500)
            (send *ri* :wait-interpolation)))
 
   (let* ((target-floor (cdr (assoc 'target-floor userdata))))
