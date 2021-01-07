@@ -3,10 +3,10 @@
 (ros::roseus-add-msgs "std_msgs")
 (ros::roseus-add-srvs "std_srvs")
 
-(require :pr2-interface "package://pr2eus/pr2-interface.l")
+;; (require :pr2-interface "package://pr2eus/pr2-interface.l")
 (require :state-machine "package://roseus_smach/src/state-machine.l")
 
-(load "package://elevator_move_base_pr2/src/utils.l")
+(load "package://elevator_move_base_fetch/src/utils.l")
 
 
 (defvar *panel*)
@@ -177,9 +177,9 @@
 
     ;; Move only head quickly
     (send *ri* :spin-once)
-    (unless (eps-v= (float-vector (elt look-av 15) (elt look-av 16))
-                    (float-vector (elt (send *ri* :state :potentio-vector) 15)
-                                  (elt (send *ri* :state :potentio-vector) 16))
+    (unless (eps-v= (float-vector (elt look-av 8) (elt look-av 9))
+                    (float-vector (elt (send *ri* :state :potentio-vector) 8)
+                                  (elt (send *ri* :state :potentio-vector) 9))
                     1.0)
       (send *ri* :angle-vector look-av 1000 :head-controller)
       (send *ri* :wait-interpolation))
@@ -191,10 +191,10 @@
 
     (if (equal panel-name "/elevator_call_panel")
         (call-service
-         "/narrow_stereo/left/pass_through_feature_to_call_panel/request"
+         "/head_camera/mono/pass_through_feature_to_call_panel/request"
          (instance std_srvs::EmptyRequest :init))
       (call-service
-       "/narrow_stereo/left/pass_through_feature_to_inside_panel/request"
+       "/head_camera/mono/pass_through_feature_to_inside_panel/request"
        (instance std_srvs::EmptyRequest :init)))
 
     ;; Wait until latest image is available.
@@ -210,10 +210,10 @@
       (return-from look-button-state nil))
     (if (equal panel-name "/elevator_call_panel")
         (call-service
-         "/narrow_stereo/left/pass_through_feature_to_call_panel/stop"
+         "/head_camera/mono/pass_through_feature_to_call_panel/stop"
          (instance std_srvs::EmptyRequest :init))
       (call-service
-       "/narrow_stereo/left/pass_through_feature_to_inside_panel/stop"
+       "/head_camera/mono/pass_through_feature_to_inside_panel/stop"
        (instance std_srvs::EmptyRequest :init)))
     t))
 

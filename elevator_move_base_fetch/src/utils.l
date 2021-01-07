@@ -75,9 +75,9 @@
   (if pose
       (setq pose (transform-pose-to-target-frame pose (send scene :name) tfl))
     (progn
-      (send tfl :wait-for-transform (send scene :name) "base_footprint" tm 1.0)
+      (send tfl :wait-for-transform (send scene :name) "base_link" tm 1.0)
       (setq pose (send tfl :lookup-transform
-                       (send scene :name) "base_footprint" tm))))
+                       (send scene :name) "base_link" tm))))
   (send scene :current-floor pose))
 
 (defun tolerance-loose (&rest args)
