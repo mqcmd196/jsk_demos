@@ -51,6 +51,7 @@
 
 (defun update-robot-position ()
   (ros::spin-once)
+  ;; https://github.com/jsk-ros-pkg/jsk_robot/pull/1315
   (send *fetch* :move-to (send *ri* :state :worldcoords "/world") :world)
   (send *fetch* :angle-vector (send *ri* :state :potentio-vector)))
 
