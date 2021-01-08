@@ -16,7 +16,6 @@
                          (send *scene* :object "/elevator_call_panel"))))
 
 (ros::rate 10)
-;; for stop loading
-;; (while (ros::ok)
-;;   (ros::spin-once)
-;;   (ros::sleep))
+(while (ros::ok)
+  (ros::spin-once)
+  (ros::sleep))
