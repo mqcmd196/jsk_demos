@@ -53,11 +53,11 @@
     </rosparam>
   </node>
   <node name="elevator_number"
-        pkg="elevator_move_base_fetch" type="match_template.py"
+        pkg="elevator_move_base_pr2" type="match_template.py"
         output="screen">
     <remap from="~image" to="/panel_camera/image"/>
     <rosparam command="load"
-              file="$(find elevator_move_base_fetch)/launch/template-$(arg scene).yaml"/>
+              file="$(find elevator_move_base_pr2)/launch/template-$(arg scene).yaml"/>
     <rosparam>
       show_probability: false
       show_image: false
