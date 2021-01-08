@@ -51,7 +51,7 @@
 
 (defun update-robot-position ()
   (ros::spin-once)
-  (send *fetch* :move-to (send *ri* :state :worldcoords) :world)
+  (send *fetch* :move-to (send *ri* :state :worldcoords "/world") :world)
   (send *fetch* :angle-vector (send *ri* :state :potentio-vector)))
 
 (defun coords->movebaseactiongoal (coords)
