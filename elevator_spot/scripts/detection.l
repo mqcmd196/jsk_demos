@@ -45,9 +45,8 @@
     (ros::unsubscribe topic)
     (ros::ros-info "Door opened.")
     (send *ri* :speak-jp "ドアが開きました。")
-    (clear-costmap)
     t))
 
 (defun check-current-floor()
-  ;; Detect the current floor by using IMU
+  ;; Detect the current floor by using IMU or image recognition. WIP...
   )
