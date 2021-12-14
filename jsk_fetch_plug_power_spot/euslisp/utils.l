@@ -390,7 +390,7 @@
   (send *fetch* :reset-pose)
   (send *ri* :angle-vector (send *fetch* :reset-pose) 5000)
 
-   approach to spot
+  ;; approach to spot
   (if (approach-to-spot)
     t
     (progn
