@@ -13,6 +13,7 @@
   (ros::ros-info "Approaching to spot-jsk")
   (let ((success nil))
     (dotimes (i n-trial)
+      (send *ri* :clear-costmap)
       (setq success (go-to-spot "/eng2/7f/room73B2-spot-plugging-place" :undock-rotate t))
       (when success (return)))
   success))
@@ -25,6 +26,7 @@
     ;;; rotate to the dock
     (send *ri* :go-pos-unsafe 0 0 135)
     ;;; go back to dock
+    (send *ri* :clear-costmap)
     (setq success (auto-dock))
     success))
 

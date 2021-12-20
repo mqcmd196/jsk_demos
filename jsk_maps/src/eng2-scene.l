@@ -226,7 +226,7 @@
 			:pos ,(float-vector 5600 6650 51.6065)
 			:name "/eng2/7f/room73B2-fetch-dock2-front")
 	 `(:rot ,(rpy-matrix 3.14 0 0)
-                        :pos ,(float-vector 3850 7000 51.6065)
+                        :pos ,(float-vector 3750 7000 51.6065)
 			:name "/eng2/7f/room73B2-spot-plugging-place")
 
 
