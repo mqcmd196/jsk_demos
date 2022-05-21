@@ -3,6 +3,7 @@
 (load "package://jsk_2011_07_pr2_semantic/euslisp/actions.l")
 (load "package://jsk_maps/src/eng2-scene.l")
 (load "package://pr2eus/pr2-interface.l")
+(load "package://google_chat_ros/scripts/google-chat.l")
 
 ;;(load "package://pr2eus_openrave/pr2eus-openrave.l")
 ;;(load "package://pr2eus_armnavigation/pr2eus-arm-navigation.l")
@@ -276,6 +277,28 @@
   (ros::spin-once)
   (send *ri* :spin-once)
   (send *pr2* :angle-vector (send *ri* :state :potentio-vector))
+
+  ;; send and wait for google chat
+  (let* ((image (one-shot-subscribe "/kinetch_head/rgb/image_rect_color"
+                                    sensor_msgs::Image :timeout 10000))
+         (image-path "/tmp/obinata-demo.jpg")
+         (chat-space "h6-FKwAAAAE")
+         (georgia-button (create-google-chat-button "Georgia" "georgia"))
+         (wonda-button (create-google-chat-button "Wonda" "wonda"))
+         (iemon-button (create-google-chat-button "Iemon" "iemon"))
+         (boss-button (create-google-chat-button "Boss" "boss"))
+         (chat-buttons (list georgia-button wonda-button iemon-button boss-button))
+         (button-reaction))
+    (unix::system (format nil "rm -f ~A" image-path))
+    (write-image-file image-path (ros::sensor_msgs/Image->image image)) ;; save image
+    (send-google-chat-text chat-space "お望みのものを選んでください")
+    (send-google-chat-image chat-space image-path)
+    (send-google-chat-buttons chat-space chat-buttons)
+    (setq button-reaction (one-shot-subscribe "/google_chat_ros/card_activity"
+                                              google_chat_ros::CardEvent :timeout 40000))
+    (when button-reaction
+      (setq *type* (send button-reaction :action :action_method_name))
+      (send *ri* :speak-jp (format nil "~A を取ります" *type*))))
 
   (let (isgrasp cds)
     (dotimes (trial 10)
