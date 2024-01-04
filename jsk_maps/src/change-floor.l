@@ -16,7 +16,7 @@
 
 (defun change-floor (target-floor
                      &key
-                     (floor-frame "/map")
+                     (floor-frame "map")
                      (topicname "/initialpose3d")
                      (base-frame-name "base_footprint"))
   "change floor by publishing geometry_msgs::PoseWithCovarianceStamped to topicname.

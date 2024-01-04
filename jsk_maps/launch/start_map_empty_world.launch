@@ -11,6 +11,6 @@
   <node if="$(arg launch_map_server)"
         name="$(anon empty_map_server)" pkg="map_server" type="map_server"
         args="$(find jsk_maps)/raw_maps/empty_map.yaml" >
-    <param name="frame_id" value="/map"/>
+    <param name="frame_id" value="map"/>
   </node>
 </launch>

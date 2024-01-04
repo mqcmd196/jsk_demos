@@ -41,7 +41,7 @@ def callback(pose):
     rospy.sleep(1) # this is bad
 
     # set initialpose
-    pose.header.frame_id = '/map'
+    pose.header.frame_id = 'map'
     pub.publish(pose)
 
 

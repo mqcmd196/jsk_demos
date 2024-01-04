@@ -110,7 +110,7 @@ map_id: ~a"
         <param name=\"frame_id\" value=\"~a\"/>
       </node>~%"
             cntr (get-yaml-filename map :unresolve t :keepout t)
-            (send map :name) (send map :name))
+            (send map :name) (string-left-trim "/" (send map :name)))
           (incf cntr))
           (format fd "    </group>~%")))
 
@@ -125,7 +125,7 @@ map_id: ~a"
         <param name=\"frame_id\" value=\"~a\"/>
       </node>~%"
               cntr (get-yaml-filename map :unresolve t :keepout nil)
-              (send map :name) (send map :name))
+              (send map :name) (string-left-trim "/" (send map :name)))
             (incf cntr))
           (format fd "    </group>~%"))
         (dolist (map floors)
@@ -135,7 +135,7 @@ map_id: ~a"
       <param name=\"frame_id\" value=\"~a\"/>
     </node>~%"
             cntr (get-yaml-filename map :unresolve t)
-            (send map :name) (send map :name))
+            (send map :name) (string-left-trim "/" (send map :name)))
           (incf cntr)))
 
       ;; multi map server
@@ -177,13 +177,13 @@ map_id: ~a"
                 (/ (elt (send map :worldpos) 0) 1000.0)
                 (/ (elt (send map :worldpos) 1) 1000.0)
                 (/ (elt (send map :worldpos) 2) 1000.0)
-                (send building :name) (send map :name))
+                (string-left-trim "/" (send building :name)) (string-left-trim "/" (send map :name)))
         (incf cntr)
         (format fd "  <node pkg=\"tf\" type=\"static_transform_publisher\" name=\"$(anon map_tf~2,2D)\"
-        args=\"  0.000   0.000   0.000 0 0 0 ~a /map 100\" >
+        args=\"  0.000   0.000   0.000 0 0 0 ~a map 100\" >
     <remap from=\"tf\" to=\"~a_tf\"/>
   </node>~%"
-                cntr (send map :name) (send map :name))
+                cntr (string-left-trim "/" (send building :name)) (string-left-trim "/" (send map :name)))
         (incf cntr)
         )
       ;;
