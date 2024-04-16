@@ -10,22 +10,22 @@
                                     lazy_wastar([hff,hlm],preferred=[hff,hlm],w=2)],
                                     repeat_last=false)&quot;" />
 
-  <include file="$(find jsk_2013_04_pr2_610)/launch/detect_all.launch">
-  </include>
-  <group unless="$(arg plan)">
-    <node name="irt_demo" pkg="roseus" type="roseus"
-          args="$(find jsk_2013_04_pr2_610)/euslisp/demo.l &quot;(progn (demo-$(arg task)) (unix:sleep 1) (ros::exit) (exit))&quot;"
-          output="screen" />
-  </group>
-  <group if="$(arg plan)">
-    <include unless="$(arg use_ffha)"
-             file="$(find pddl_planner)/launch/pddl_downward.launch">
-      <arg name="planner_option" value="$(arg planner_option)" />
-    </include>
-    <include if="$(arg use_ffha)"
-             file="$(find pddl_planner)/launch/pddl_ffha.launch" />
-    <node name="irt_demo" pkg="roseus" type="roseus"
-          args="$(find jsk_2013_04_pr2_610)/euslisp/plan-demo.l &quot;(progn (plan-$(arg task)) (unix:sleep 1) (ros::exit) (exit))&quot;"
-          output="screen" />
-  </group>
+  <!-- <include file="$(find jsk_2013_04_pr2_610)/launch/detect_all.launch"> -->
+  <!-- </include> -->
+  <!-- <group unless="$(arg plan)"> -->
+  <node name="irt_demo" pkg="roseus" type="roseus"
+        args="$(find jsk_2013_04_pr2_610)/euslisp/demo.l &quot;(progn (demo-$(arg task)) (unix:sleep 1) (ros::exit) (exit))&quot;"
+        output="screen" />
+  <!-- </group> -->
+  <!-- <group if="$(arg plan)"> -->
+  <!--   <include unless="$(arg use_ffha)" -->
+  <!--            file="$(find pddl_planner)/launch/pddl_downward.launch"> -->
+  <!--     <arg name="planner_option" value="$(arg planner_option)" /> -->
+  <!--   </include> -->
+  <!--   <include if="$(arg use_ffha)" -->
+  <!--            file="$(find pddl_planner)/launch/pddl_ffha.launch" /> -->
+  <!--   <node name="irt_demo" pkg="roseus" type="roseus" -->
+  <!--         args="$(find jsk_2013_04_pr2_610)/euslisp/plan-demo.l &quot;(progn (plan-$(arg task)) (unix:sleep 1) (ros::exit) (exit))&quot;" -->
+  <!--         output="screen" /> -->
+  <!-- </group> -->
 </launch>
