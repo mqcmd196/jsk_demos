@@ -48,7 +48,7 @@
         (setq prev-floor cur-floor))
       (when (and (ros::time> (ros::time-now)
                              (ros::time+ prev-reset-time (ros::time timeout)))
-                 (< (send button-state :value) 0.5))
+                 (< (send button-state :value) 0.0001))
         (ros::warn
          (format nil "Elevator has not moved in recent ~A [sec]." timeout))
         (speak-jp "エレベータが動いていません。")

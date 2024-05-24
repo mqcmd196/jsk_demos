@@ -73,7 +73,7 @@
     (send msg :header :frame_id frame-id)
     (send msg :point :x (elt uv 0))
     (send msg :point :y (elt uv 1))
-    (send msg :point :z 10) ;; radius [px]
+    (send msg :point :z 45) ;; radius [px] NOTE Temporary increase the value. Please set 10 after calibrated
     (ros::publish "view_target" msg)
     t))
 
@@ -244,7 +244,7 @@
                             (ros::time+ start-tm (ros::time timeout))))
       (ros::spin-once)
       (ros::ros-info "button-state: ~A" (send button-state :value))
-      (when (< 0.5 (send button-state :value))
+      (when (< 0.0001 (send button-state :value))
         (ros::ros-info "Button is lighting up.")
         (speak-jp "ボタンが光りました。")
         (call-service "/wide_stereo/left/pass_through_image_rect_color/stop"

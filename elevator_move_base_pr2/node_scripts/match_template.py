@@ -118,6 +118,7 @@ class MatchTemplate(ConnectionBasedTransport):
     def publish_debug(self, img, results):
         templates = list(self.templates.values())
         templates.sort(key=lambda t: t.name)
+        ## or templates = sorted(templates, key=lambda t: t.name) # python2 to 3 compatibility 
         imgs = [t.image for t in templates]
 
         tmpl_img = np.hstack(imgs)

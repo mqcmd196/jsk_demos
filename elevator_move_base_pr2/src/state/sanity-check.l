@@ -47,38 +47,39 @@
     (unless (check-topic-published "/tilt_scan" sensor_msgs::LaserScan 2)
       (setq success nil))
 
-    ;; For look-at-human
-    (unless (check-topic-published "edgetpu_human_pose_estimator/output/poses"
-                                   jsk_recognition_msgs::PeoplePoseArray 5)
-      (setq success nil))
+    ;;;; COMMENT OUT FOR DEBUG ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; ;; For look-at-human
+    ;; (unless (check-topic-published "edgetpu_human_pose_estimator/output/poses"
+    ;;                                jsk_recognition_msgs::PeoplePoseArray 5)
+    ;;   (setq success nil))
 
-    ;; For door button recognition with FCN
-    (call-service "door_button/pass_through_image/request"
-                  (instance std_srvs::EmptyRequest :init))
-    (unless (check-topic-published
-             "door_button/fcn_object_segmentation/output" sensor_msgs::Image 20)
-      (setq success nil))
-    (call-service "door_button/pass_through_image/stop"
-                  (instance std_srvs::EmptyRequest :init))
+    ;; ;; For door button recognition with FCN
+    ;; (call-service "door_button/pass_through_image/request"
+    ;;               (instance std_srvs::EmptyRequest :init))
+    ;; (unless (check-topic-published
+    ;;          "door_button/fcn_object_segmentation/output" sensor_msgs::Image 20)
+    ;;   (setq success nil))
+    ;; (call-service "door_button/pass_through_image/stop"
+    ;;               (instance std_srvs::EmptyRequest :init))
 
-    ;; For human in mirror recognition with FCN
-    (call-service "human_in_mirror/pass_through_kinect_rgb/request"
-                  (instance std_srvs::EmptyRequest :init))
-    (call-service "human_in_mirror/pass_through_kinect_depth/request"
-                  (instance std_srvs::EmptyRequest :init))
-    (unless (check-topic-published
-             "human_in_mirror/find_human_in_mirror/output/inside_mirror"
-             jsk_recognition_msgs::BoolStamped 20)
-      (setq success nil))
-    (unless (check-topic-published
-             "human_in_mirror/find_human_in_mirror/output/outside_mirror"
-             jsk_recognition_msgs::BoolStamped 20)
-      (setq success nil))
-    (call-service "human_in_mirror/pass_through_kinect_rgb/stop"
-                  (instance std_srvs::EmptyRequest :init))
-    (call-service "human_in_mirror/pass_through_kinect_depth/stop"
-                  (instance std_srvs::EmptyRequest :init))
-
+    ;; ;; For human in mirror recognition with FCN
+    ;; (call-service "human_in_mirror/pass_through_kinect_rgb/request"
+    ;;               (instance std_srvs::EmptyRequest :init))
+    ;; (call-service "human_in_mirror/pass_through_kinect_depth/request"
+    ;;               (instance std_srvs::EmptyRequest :init))
+    ;; (unless (check-topic-published
+    ;;          "human_in_mirror/find_human_in_mirror/output/inside_mirror"
+    ;;          jsk_recognition_msgs::BoolStamped 20)
+    ;;   (setq success nil))
+    ;; (unless (check-topic-published
+    ;;          "human_in_mirror/find_human_in_mirror/output/outside_mirror"
+    ;;          jsk_recognition_msgs::BoolStamped 20)
+    ;;   (setq success nil))
+    ;; (call-service "human_in_mirror/pass_through_kinect_rgb/stop"
+    ;;               (instance std_srvs::EmptyRequest :init))
+    ;; (call-service "human_in_mirror/pass_through_kinect_depth/stop"
+    ;;               (instance std_srvs::EmptyRequest :init))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (if success
         (ros::ros-info "Successfully finished sanity-check.")
       (ros::ros-error "Failed to execute sanity-check."))

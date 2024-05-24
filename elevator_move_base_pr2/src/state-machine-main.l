@@ -64,6 +64,8 @@
           (instance state :init :move-elevator-front
                     '(lambda (userdata)
                        (use-tilt-laser-obstacle-cloud nil)
+                       (ros::ros-error (format nil "DEBUG cdr-assoc-elevator-front-coords ~A" (cdr (assoc 'elevator-front-coords userdata))))
+                       ;; (break)
                        (send *ri* :move-to
                              (cdr (assoc 'elevator-front-coords userdata))
                              :retry 2 :correction nil))))
@@ -136,8 +138,8 @@
                         (case (cdr (assoc 'push-arm userdata))
                           (:rarm :larm)
                           (:larm :rarm)))
-                       (call-service "look_forward_in_navigation/start"
-                                     (instance std_srvs::EmptyRequest :init))
+                       ;; (call-service "look_forward_in_navigation/start"
+                       ;;               (instance std_srvs::EmptyRequest :init))
                        (restore-params))))
     (send sm :arg-keys 'elevator-front-coords 'front-coords 'outside-panel-name
                        'outside-button 'inside-coords 'inside-panel-name

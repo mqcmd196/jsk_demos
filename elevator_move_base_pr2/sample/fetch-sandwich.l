@@ -19,6 +19,9 @@
 (defvar *pr2*)
 (defvar *ri*)
 (defvar *scene*)
+(defvar *sandwich*)
+
+;; (load "package://chat_with_robots/lib/robot-primitives-with-knowledge.l")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -193,15 +196,25 @@
 
 
 (defun open-forum-door ()
-  (call-service "door_button/pass_through_image/request"
-                (instance std_srvs::EmptyRequest :init))
-  (until (check-forum-door-open)
-         (push-forum-door-button)
-         (unix:sleep 1))  ;; Wait for door opening
-  (call-service "door_button/pass_through_image/stop"
-                (instance std_srvs::EmptyRequest :init))
-  (look-front))
+  ;; TODO obinata debug it or maybe we don't need when the PR2 get out?
+  ;; (call-service "door_button/pass_through_image/request"
+  ;;               (instance std_srvs::EmptyRequest :init))
+  ;; (until (check-forum-door-open)
+  ;;        (push-forum-door-button)
+  ;;        (unix:sleep 1))  ;; Wait for door opening
+  ;; (call-service "door_button/pass_through_image/stop"
+  ;;               (instance std_srvs::EmptyRequest :init))
+  ;; (look-front)
+  )
 
+(defun check-subway-menu()
+  ;; TODO obinata set position of camera where menu can see
+  (clear-costmap)
+  (send *ri* :move-to (make-coords :pos #f(22378.302 -8297.018 0) :rpy #f(2.593 0 0)) :frame-id "/map") ;; move to menu front
+  ;; (send *ri* :angle-vector #f(81.9908 5.55611 69.2629 104.926 -88.6113 -69.6902 -5.72958 -19.8853 0.680875 60.3969 -79.3064 -121.542 -117.634 -103.147 31.3409 0.32353 -0.954)) ;; look at menu
+  (send *ri* :move-to (make-coords :pos #f(22054.673 -8337.191 0) :rpy #f(2.581 0 0)) :frame-id "/map")
+  (send *ri* :angle-vector #f(81.951 5.55611 69.2629 104.926 -88.6113 -69.6935 -5.73102 -19.8878 0.690376 60.3969 -79.3064 -121.542 -117.634 -102.958 31.3409 0.31753 -2.706))
+  )
 
 (defun go-to-subway-front ()
   (clear-costmap)
@@ -209,7 +222,6 @@
   (send *ri* :move-to
         (send *scene* :spot "/eng2/2f/subway-front")
         :retry 100))
-
 
 (defun order-sandwich
     (sandwich
@@ -361,9 +373,11 @@
         (sandwiches '(("blt_sand" "BLTサンド")
                       ("roast_chicken_sand" "ローストチキンサンド")
                       ("tuna_sand" "ツナサンド"))))
-    (dolist (s sandwiches)
-      (when (string= sandwich-en (elt s 0))
-        (setq sandwich-jp (elt s 1))))
+    ;; FIXME for debug
+    ;; (dolist (s sandwiches)
+    ;;   (when (string= sandwich-en (elt s 0))
+    ;;     (setq sandwich-jp (elt s 1))))
+    (setq sandwich-jp "BLTサンド")
     (when (null sandwich-jp)
       (speak-jp "すみません、聞き取れませんでした。")
       (exit 1))

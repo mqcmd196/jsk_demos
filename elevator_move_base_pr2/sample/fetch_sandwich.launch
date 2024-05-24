@@ -7,17 +7,23 @@
   <!-- Look at human if found                                                -->
   <!-- ===================================================================== -->
 
-  <node name="look_at_human"
-        pkg="elevator_move_base_pr2" type="look-at-human.l">
-    <remap from="~input/people_pose_array" to="/edgetpu_human_pose_estimator/output/poses"/>
-  </node>
+  <!-- <node name="look_at_human" -->
+  <!--       pkg="elevator_move_base_pr2" type="look-at-human.l"> -->
+  <!--   <remap from="~input/people_pose_array" to="/edgetpu_human_pose_estimator/output/poses"/> -->
+  <!-- </node> -->
 
   <!-- ===================================================================== -->
   <!-- Main Application                                                      -->
   <!-- ===================================================================== -->
 
+  <!-- <node name="fetch_sandwich" -->
+  <!--       pkg="elevator_move_base_pr2" type="fetch-sandwich.l" -->
+  <!--       args="(main)" -->
+  <!--       machine="c2" -->
+  <!--       output="screen" required="true"/> -->
+
   <node name="fetch_sandwich"
-        pkg="elevator_move_base_pr2" type="fetch-sandwich.l"
+        pkg="chat_with_robots" type="pr2_buy.l"
         args="(main)"
         machine="c2"
         output="screen" required="true"/>

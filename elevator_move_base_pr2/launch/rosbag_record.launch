@@ -1,0 +1,12 @@
+<launch>
+  <arg name="rosbag" />
+  
+  <include file="$(find jsk_pr2_startup)/jsk_pr2_lifelog/rosbag_record.launch">
+    <arg name="rosbag" value="$(arg rosbag)" />
+    <arg name="use_regex" value="true" />
+    <!-- <arg name="other_topics" value="/.*_stereo.*/.*compress.* /.*_stereo/.*/camera_info /check_elevator_open/.* /door_button/.* /elevator_.*  /light_button /light_detector/.* /narrow_stereo/left/Feature0D /narrow_stereo/left/ImageFeature0D /narrow_stereo/left/ObjectDetection /narrow_stereo/left/ObjectDetection_agg /narrow_stereo/left/object_pose /narrow_stereo/left/pass_through_.* /narrow_stereo/left/point_pose_extractor_elevator_panels/debug_image/compressed /narrow_stereo/left/point_pose_extractor_elevator_panels/debug_image/compressedDepth /panel_camera/camera_info /panel_camera/image/compressed /panel_camera/image/compressedDepth /target_polygon /view_point /view_target /server_name/smach/.* /move_base/.* /pr2_move_base/.* /k4a/rgb/image_rect_color/compressed /google_chat_ros/.* /knowledge_resolver/.*" /> -->
+    <!-- /extract_eng2_forum_door_point_cloud/.* -->
+    <arg name="other_topics" value="/.*_stereo.*/.*compress.* /.*_stereo/.*/camera_info /check_elevator_open/.* /door_button/.* /elevator_.*  /light_button /light_detector/.* /narrow_stereo/left/Feature0D /narrow_stereo/left/ImageFeature0D /narrow_stereo/left/ObjectDetection /narrow_stereo/left/ObjectDetection_agg /narrow_stereo/left/object_pose /narrow_stereo/left/pass_through_.* /narrow_stereo/left/point_pose_extractor_elevator_panels/debug_image/compressed /narrow_stereo/left/point_pose_extractor_elevator_panels/debug_image/compressedDepth /panel_camera/camera_info /panel_camera/image/compressed /panel_camera/image/compressedDepth /target_polygon /view_point /view_target /server_name/smach/.* /move_base/.* /pr2_move_base/.* /k4a/rgb/image_rect_color/compressed /google_chat_ros/.* /knowledge_resolver/.*" />
+  </include>
+  
+</launch>
