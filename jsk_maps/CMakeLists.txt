@@ -3,7 +3,10 @@ cmake_minimum_required(VERSION 2.8.3)
 project(jsk_maps)
 
 find_package(catkin REQUIRED)
-find_package(euslisp REQUIRED)
+
+if(NOT $ENV{ROS_DISTRO} STREQUAL "one")
+  find_package(euslisp REQUIRED)
+endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES Linux)
   execute_process(COMMAND gcc -dumpmachine OUTPUT_VARIABLE GCC_MACHINE OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -35,7 +38,10 @@ elseif (EXISTS ${euslisp_SOURCE_PREFIX}/jskeus/eus/${ARCHDIR}/bin/irteusgl)
 elseif (EXISTS ${euslisp_PREFIX}/share/euslisp/jskeus/eus/${ARCHDIR}/bin/irteusgl)
   set(_eus_exe ${euslisp_PREFIX}/share/euslisp/jskeus/eus/${ARCHDIR}/bin/irteusgl)
 else (EXISTS ${euslisp_SOURCE_DIR}/jskeus/eus/${ARCHDIR}/bin/irteusgl)
-  message(FATAL_ERROR "cannot find irteusgl")
+  find_program(_eus_exe irteusgl)
+  if (NOT _eus_exe)
+    message(FATAL_ERROR "cannot find irteusgl")
+  endif()
 endif(EXISTS ${euslisp_SOURCE_DIR}/jskeus/eus/${ARCHDIR}/bin/irteusgl)
 
 catkin_package()
